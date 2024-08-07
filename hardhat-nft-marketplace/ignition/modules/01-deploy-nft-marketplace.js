@@ -7,3 +7,5 @@ module.exports = buildModule("NftMarketplace", (m) => {
 
   return { apollo };
 });
+
+module.exports.tags = ["all", "nftmarketplace"];
