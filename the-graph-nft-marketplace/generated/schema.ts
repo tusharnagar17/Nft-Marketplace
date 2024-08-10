@@ -283,21 +283,17 @@ export class ItemCanceled extends Entity {
     this.set("nftAddress", Value.fromBytes(value));
   }
 
-  get tokenId(): BigInt | null {
+  get tokenId(): BigInt {
     let value = this.get("tokenId");
     if (!value || value.kind == ValueKind.NULL) {
-      return null;
+      throw new Error("Cannot return null for a required field.");
     } else {
       return value.toBigInt();
     }
   }
 
-  set tokenId(value: BigInt | null) {
-    if (!value) {
-      this.unset("tokenId");
-    } else {
-      this.set("tokenId", Value.fromBigInt(<BigInt>value));
-    }
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
   }
 }
 
