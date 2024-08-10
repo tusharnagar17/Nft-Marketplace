@@ -6,6 +6,7 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi"
 import Image from "next/image"
 import { ethers } from "ethers"
 import UpdateListingModal from "./UpdateListingModal"
+import BuyNftModal from "./BuyNftModal"
 
 const truncateStr = (fullStr, strLen) => {
     if (fullStr.length <= strLen) return fullStr
@@ -27,7 +28,10 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
     const [tokenName, setTokenName] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
     const [showModal, setShowModal] = useState(false)
-    const hideModel = () => setShowModal(false)
+    const [showBuyModal, setShowBuyModel] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const hideModal = () => setShowModal(false)
+    const hideBuyModal = () => setShowBuyModel(false)
     const dispatch = useNotification()
     const { isConnected, address: userAddress } = useAccount({ wagmiConfig })
 
@@ -48,8 +52,6 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
 
     // update ui
     async function updateUI() {
-        console.log(`The TokenUI is ${tokenURI}`)
-
         if (tokenURI) {
             const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
             const tokenURIResponse = await (await fetch(requestURL)).json()
@@ -58,16 +60,18 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
             setImageURI(imageURIURL)
             setTokenName(tokenURIResponse.name)
             setTokenDescription(tokenURIResponse.description)
+            setLoading(false)
         }
     }
 
     useEffect(() => {
-        if (isWeb3Enabled) {
+        if (isConnected) {
             updateUI()
         }
-    }, [isConnected])
+    }, [isConnected, isPending])
 
-    const isOwnedByUser = seller === account || seller === undefined
+    const isOwnedByUser = seller === userAddress.toLowerCase() || seller === undefined
+
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller || "", 15)
 
     const handleCardClick = () => {
@@ -76,14 +80,7 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
 
     const buyItemFunction = () => {
         console.log("buyItem function clicked")
-        try {
-            const buyRequest = buyItemContractFunction({})
-            if (buyRequest.status === "success") {
-                handleBuyItemSuccess()
-            }
-        } catch (error) {
-            console.log("BuyItem Error", error)
-        }
+        setShowBuyModel(!showBuyModal)
     }
 
     const handleBuyItemSuccess = () => {
@@ -93,6 +90,10 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
             title: "Item Bought",
             position: "topR",
         })
+    }
+
+    if (loading) {
+        return <div className="border-2 border-red-500 bg-red-100">Nft loader...</div>
     }
     return (
         <div>
@@ -106,6 +107,14 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
                             marketplaceAddress={nftMarketplaceAddress}
                             nftAddress={nftAddress}
                             onClose={hideModal}
+                        />
+                        <BuyNftModal
+                            isVisible={showBuyModal}
+                            tokenId={tokenId}
+                            marketplaceAddress={nftMarketplaceAddress}
+                            nftAddress={nftAddress}
+                            onClose={hideBuyModal}
+                            price={price}
                         />
                         <Card
                             title={tokenName}
@@ -123,6 +132,7 @@ const NFTBox = ({ price, nftAddress, tokenId, seller }) => {
                                         src={imageURI}
                                         height="200"
                                         width="200"
+                                        alt={"nft-image"}
                                     />
                                     <div>{ethers.formatUnits(price, "ether")} ETH</div>
                                 </div>

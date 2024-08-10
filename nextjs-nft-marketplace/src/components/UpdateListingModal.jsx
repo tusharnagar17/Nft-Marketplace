@@ -2,7 +2,7 @@
 import { nftMarketplaceAbi } from "@/constants"
 import { Input, Modal, useNotification } from "@web3uikit/core"
 import { ethers } from "ethers"
-import React from "react"
+import React, { useState } from "react"
 import { useWriteContract } from "wagmi"
 
 const UpdateListingModal = ({ nftAddress, tokenId, isVisible, marketplaceAddress, onClose }) => {
@@ -17,32 +17,36 @@ const UpdateListingModal = ({ nftAddress, tokenId, isVisible, marketplaceAddress
             title: "Listing updated - please refresh (and move blocks)",
             position: "topR",
         })
+        onClose && onClose()
+        setPriceToUpdateListingWith("0")
     }
 
     const updateListingFunction = async () => {
+        if (priceToUpdateListingWith <= 0) {
+            alert("Kindly input no greater than 0!")
+            return
+        }
         try {
             const updateRequest = await updateContract({
                 address: marketplaceAddress,
                 abi: nftMarketplaceAbi,
                 functionName: "updateListing",
-
-                // todo
                 args: [nftAddress, tokenId, ethers.parseEther(priceToUpdateListingWith || "0")],
             })
 
-            if (updateRequest.status === "success") {
-                handleUpdateListingSuccess()
-            }
+            handleUpdateListingSuccess()
         } catch (error) {
             console.log("Update Listing Error:", error)
+            close()
         }
     }
+
     return (
         <Modal
             isVisible={isVisible}
             onCancel={onClose}
             onCloseButtonPressed={onClose}
-            onOK={() => {
+            onOk={() => {
                 updateListingFunction()
             }}
         >

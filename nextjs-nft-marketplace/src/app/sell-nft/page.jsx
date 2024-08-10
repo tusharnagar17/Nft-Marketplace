@@ -12,9 +12,9 @@ const SellPage = () => {
     const [proceeds, setProceeds] = useState("0")
     const { isConnected, address: userAddress } = useAccount({ wagmiConfig })
     const dispatch = useNotification()
-    const { writeContract: approveNft } = useWriteContract()
-    const { writeContract: listNft } = useWriteContract()
-    const { writeContract: withdrawProceedsFromContract } = useWriteContract()
+    const { writeContractAsync: approveNft } = useWriteContract()
+    const { writeContractAsync: listNft } = useWriteContract()
+    const { writeContractAsync: withdrawProceedsFromContract } = useWriteContract()
 
     // 1.  function that return proceeds
     const { data: returnedProceeds } = useReadContract({
@@ -55,9 +55,8 @@ const SellPage = () => {
                 functionName: "approve",
                 args: [nftMarketplaceAddress, tokenId],
             })
-            if (approveRequest.status === "success") {
-                handleApproveSuccess(nftAddress, tokenId, price)
-            }
+
+            handleApproveSuccess(nftAddress, tokenId, price)
         } catch (error) {
             console.log("Approve Error:", error)
         }
@@ -72,9 +71,8 @@ const SellPage = () => {
                 functionName: "listItem",
                 args: [nftAddress, tokenId, price],
             })
-            if (listRequest.status === "success") {
-                handleListSuccess()
-            }
+
+            handleListSuccess()
         } catch (error) {
             console.log("List Error: ", error)
         }
@@ -88,9 +86,8 @@ const SellPage = () => {
                 abi: nftMarketplaceAbi,
                 functionName: "withdrawProceeds",
             })
-            if (withdrawRequest.status === "success") {
-                handleWithdrawSuccess()
-            }
+
+            handleWithdrawSuccess()
         } catch (error) {
             console.log("Withdraw Error:", error)
         }

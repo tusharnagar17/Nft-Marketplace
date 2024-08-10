@@ -1,6 +1,6 @@
 import nftAbi from "./BasicNft.json"
 import nftMarketplaceAbi from "./NftMarketplace.json"
 
-const nftMarketplaceAddress = "0x0Bd6c037056c6D162D6fD16d9E27Fb31ddEc5F21"
+const nftMarketplaceAddress = process.env.NEXT_PUBLIC_NFT_MARKETPLACE_ADDRESS
 
 export { nftAbi, nftMarketplaceAbi, nftMarketplaceAddress }

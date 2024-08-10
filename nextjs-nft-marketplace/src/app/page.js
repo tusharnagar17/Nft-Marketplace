@@ -5,16 +5,16 @@ import { useAccount } from "wagmi"
 import { wagmiConfig } from "./_app"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import Link from "next/link"
+import NFTBox from "@/components/NFTBox"
 
 export default function Home() {
     const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEM)
     const { isConnected } = useAccount()
-    console.log("listedNfts", listedNfts)
 
     return (
-        <div className="container mx-auto">
-            <h1 className="py-4 px-4 md:px-20 font-bold text-2xl">Recently Listed</h1>
-            <div className="flex flex-wrap justify-center items-center">
+        <div className="container mx-auto max-w-7xl">
+            <h1 className="py-4  font-bold text-2xl">Recently Listed</h1>
+            <div className="flex flex-wrap gap-4">
                 {isConnected ? (
                     loading || !listedNfts ? (
                         <div>Loading...</div>
@@ -25,16 +25,26 @@ export default function Home() {
                             <Link href="/sell-nft" className="">
                                 <button
                                     type="button"
-                                    class="text-white bg-sky-400 hover:bg-sky-500 focus:ring-4 focus:ring-blue-300 font-medium my-4 rounded-lg text-lg px-10 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                    className="text-white bg-sky-400 hover:bg-sky-500 focus:ring-4 focus:ring-blue-300 font-medium my-4 rounded-lg text-lg px-10 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                 >
                                     Sell you Nft
                                 </button>
                             </Link>
                         </div>
                     ) : (
-                        listedNfts.activeItems.map((nft) => {
+                        listedNfts.activeItems.map((nft, index) => {
                             const { price, nftAddress, tokenId, seller } = nft
-                            return <div>nftCard</div>
+
+                            return (
+                                <div key={index}>
+                                    <NFTBox
+                                        price={price}
+                                        nftAddress={nftAddress}
+                                        tokenId={tokenId}
+                                        seller={seller}
+                                    />
+                                </div>
+                            )
                         })
                     )
                 ) : (
