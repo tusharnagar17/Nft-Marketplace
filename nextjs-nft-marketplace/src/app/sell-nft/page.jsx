@@ -1,5 +1,5 @@
 "use client"
-import { Form, useNotification } from "@web3uikit/core"
+import { Form, useNotification, Button } from "@web3uikit/core"
 import React, { useState, useEffect } from "react"
 import styles from "../../styles/Home.module.css"
 import { useAccount, useReadContract, useWriteContract } from "wagmi"
@@ -151,15 +151,18 @@ const SellPage = () => {
                 ]}
             />
             {/* All Proceeds */}
-            <div>Withdraw {proceeds} proceeds</div>
+            <div>Withdraw {ethers.formatUnits(proceeds, "ether")} ETH proceeds</div>
             {proceeds != "0" ? (
-                <Button
+                <button
+                    className="text-white text-xl bg-green-400 hover:bg-green-700 focus:ring-4 focus:ring-green-800 font-medium rounded-lg px-5 py-2.5 me-2 mb-2  focus:outline-none dark:focus:ring-blue-800"
                     text="Withdraw"
                     type="button"
                     onClick={() => {
                         withdrawProceeds()
                     }}
-                />
+                >
+                    Withdraw Now
+                </button>
             ) : (
                 <div>No Proceeds Detected</div>
             )}

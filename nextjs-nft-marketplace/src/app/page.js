@@ -48,7 +48,7 @@ export default function Home() {
                         })
                     )
                 ) : (
-                    <div className="flex justify-center items-center h-[60vh] text-xl font-medium">
+                    <div className="flex justify-center w-full  items-center h-[60vh] text-2xl font-medium">
                         Kindly Connect Eth Sepolia Network
                     </div>
                 )}
