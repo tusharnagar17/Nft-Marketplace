@@ -102,49 +102,21 @@ This decentralized marketplace is built on the Sepolia testnet, enabling users t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# Features 
 
-<!-- ROADMAP -->
-## Roadmap
+- **Listing NFTs:** Users can easily list their NFTs for sale, ensuring a seamless process from creation to listing.
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- **Buying and Selling:** The platform supports the buying and selling of NFTs, providing a smooth and reliable transaction experience.
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+- **Frontend Development:** Leveraging Next.js for server-side rendering and optimized performance, combined with Tailwind CSS for a modern and responsive design.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- **Blockchain Interactions:** Utilizing Ethers.js and Wagmi for efficient and robust interactions with smart contracts on the Sepolia testnet.
 
+- **Smart Contract Management:** Developed and deployed smart contracts using Hardhat, ensuring reliable and secure contract interactions.
 
+- **Data Indexing:** Integrated `TheGraph` to efficiently index and query blockchain data, enhancing the performance and scalability of the platform.
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+- **Wallet Connectivity:** Enabled seamless wallet connections with RainbowKit, facilitating smooth user onboarding and interactions.
 
 
 <!-- CONTACT -->
